@@ -1,16 +1,22 @@
 #!/bin/bash
 
-echo -e "\nTEST :"
-df
+case $1 in
+  config)
+    cat <<'EOM'
+graph_title Storage space
+graph_args --base 1024 -l 0
+graph_category storage
+graph_vlabel space
+used.label used
+free.label free
+EOM
+    exit 0;;
+esac
 
-used_space_nb=$(df | grep 'hubicfuse' | awk '{print $3}')
-free_space_nb=$(df | grep 'hubicfuse' | awk '{print $4}')
+df_line=$(df | grep 'hubicfuse')
 
-echo $free_space_nb
-echo $used_space_nb
+free_space=$(echo $df_line | awk '{print $4}')
+used_space=$(echo $df_line | awk '{print $3}')
 
-free_space=$(expr $free_space_nb / 1048576)
-used_space=$(expr $used_space_nb / 1048576)
-
-echo -e "\nStorage : \n    $used_space GB used \n    $free_space GB free \n"
-
+printf "used.value $used_space\n"
+printf "free.value $free_space\n"
