@@ -1,10 +1,13 @@
 #!/bin/bash
 
+echo -e "\nTEST :"
+df
+
 used_space_nb=$(df | grep 'hubicfuse' | awk '{print $3}')
 free_space_nb=$(df | grep 'hubicfuse' | awk '{print $4}')
 
-echo $used_space_nb
 echo $free_space_nb
+echo $used_space_nb
 
 free_space=$(expr $free_space_nb / 1048576)
 used_space=$(expr $used_space_nb / 1048576)
